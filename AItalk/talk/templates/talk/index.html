@@ -1,0 +1,8 @@
+<h1>AI会話アプリ</h1>
+<form action="{% url 'talk:index' %}" method="post">
+    {% csrf_token %}
+    メッセージ：{{ form.message }}
+    <button type="submit">送信</button>
+</form>
+<p>{{ user_message }}</p>
+<p>{{ chatgpt_message }}</p>
