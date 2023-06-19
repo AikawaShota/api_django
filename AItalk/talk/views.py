@@ -9,7 +9,6 @@ with open('./chatgpt_key.txt') as f:
 openai.api_key = chatgpt_api_key
 
 
-# Create your views here.
 def index(request):
     form = forms.ChatForm()
     user_message = "{何も入力されていません}"
