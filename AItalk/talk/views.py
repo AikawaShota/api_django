@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import forms
 from . import models
 import openai
@@ -11,30 +11,33 @@ openai.api_key = chatgpt_api_key
 
 def index(request):
     form = forms.ChatForm()
-    user_message = "{何も入力されていません}"
-    chatgpt_message = "{何も入力されていません}"
     dialogues = models.Dialogue.objects.all()
     if request.method == "POST":
-        user_message = "Your message:" + request.POST["message"]
-        dialogue = models.Dialogue(
-            role="user", context=request.POST["message"])
-        dialogue.save()
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": request.POST["message"]}
-            ]
-        )
-        chatgpt_message = "ChatGPT message:" + \
-            response["choices"][0]["message"]["content"].lstrip()
-        dialogue = models.Dialogue(
-            role='chatgpt',
-            context=response["choices"][0]["message"]["content"].lstrip())
-        dialogue.save()
+        form = forms.ChatForm(request.POST)
+        if form.is_valid():
+            dialogue = models.Dialogue(
+                role="user", context=request.POST["message"])
+            dialogue.save()
+            history = []
+            for i in dialogues:
+                history.append({"role": i.role, "content": i.context})
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=history
+            )
+            dialogue = models.Dialogue(
+                role='assistant',
+                context=response["choices"][0]["message"]["content"].lstrip())
+            dialogue.save()
+            return redirect("talk:index")
     context = {
         "form": form,
-        "user_message": user_message,
-        "chatgpt_message": chatgpt_message,
         "dialogues": dialogues
     }
     return render(request, 'talk/index.html', context)
+
+
+def delete(request):
+    if request.method == "POST":
+        models.Dialogue.objects.all().delete()
+    return redirect("talk:index")
