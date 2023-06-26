@@ -19,5 +19,5 @@
 
 <form action="{% url 'talk:delete' %}" method="post">
     {% csrf_token %}
-    <button type="submit">会話を削除</button>
+    <button type="submit" onclick="return confirm('これまでの会話履歴は全て削除されます。本当によろしいですか？')">会話を削除</button>
 </form>
