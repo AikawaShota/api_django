@@ -1,8 +1,21 @@
 <h1>AI会話アプリ</h1>
+
+{% for dialogue in dialogues %}
+<p>
+    {% if dialogue.role == "user" %}
+    あなた：{{ dialogue.context }}
+    {% endif %}
+    {% if dialogue.role == "chatgpt" %}
+    chatGPT：{{ dialogue.context }}
+    {% endif %}
+</p>
+{% endfor %}
+
+<!-- <p>{{ user_message }}</p> -->
+<!-- <p>{{ chatgpt_message }}</p> -->
+
 <form action="{% url 'talk:index' %}" method="post">
     {% csrf_token %}
     メッセージ：{{ form.message }}
     <button type="submit">送信</button>
 </form>
-<p>{{ user_message }}</p>
-<p>{{ chatgpt_message }}</p>

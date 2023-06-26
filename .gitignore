@@ -159,5 +159,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+
+# === User add(not templates) ===
 # api key
 chatgpt_key.txt
+
+# django superuser infomation
+django_superuser.txt
