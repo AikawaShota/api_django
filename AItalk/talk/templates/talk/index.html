@@ -21,3 +21,13 @@
     {% csrf_token %}
     <button type="submit" onclick="return confirm('これまでの会話履歴は全て削除されます。本当によろしいですか？')">会話を削除</button>
 </form>
+
+<form action="{% url 'talk:american' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" onclick="return confirm('これまでの会話履歴は全て削除されます。本当によろしいですか？')">アメリカ人モード</button>
+</form>
+
+<form action="{% url 'talk:samurai' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" onclick="return confirm('これまでの会話履歴は全て削除されます。本当によろしいですか？')">サムライモード</button>
+</form>

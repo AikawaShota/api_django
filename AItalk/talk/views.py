@@ -41,3 +41,25 @@ def delete(request):
     if request.method == "POST":
         models.Dialogue.objects.all().delete()
     return redirect("talk:index")
+
+
+def american(request):
+    if request.method == "POST":
+        models.Dialogue.objects.all.delete()
+        dialogue = models.Dialogue(
+            role="system",
+            context="今後の返信は語尾に「ござる」を付けてください。"
+        )
+        dialogue.save()
+    return redirect("talk:index")
+
+
+def samurai(request):
+    if request.method == "POST":
+        models.Dialogue.objects.all.delete()
+        dialogue = models.Dialogue(
+            role="system",
+            context="今後の返信は語尾に「ござる」を付けてください。"
+        )
+        dialogue.save()
+    return redirect("talk:index")
